@@ -8,13 +8,13 @@ var S  = require('string')
  */
 function Getsum() {
 
-    this.ipsumData = fileLoader('./data/lorem-ipsum.txt');
+    this.ipsumData = loadFileContents('./data/lorem-ipsum.txt');
 
     this.splitToWords = function() {
     	return this.ipsumData.split(' ');
     }
 
-	function fileLoader(filename) {
+	function loadFileContents(filename) {
 	    var file = FS.readFileSync(filename, {
 	        encoding: 'utf8'
 	    });
