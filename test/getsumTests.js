@@ -1,4 +1,5 @@
 var expect = require("chai").expect;
+var assert = require("chai").assert;
 var getsum = require("../index.js");
 
 describe("Getsum", function() {
@@ -22,12 +23,23 @@ describe("Getsum", function() {
                 .and.to.be.a("string")
         });
 
+        it('should end with a lowercase letter and full stop', function () {
+        	var string   = getsum.characters(10);
+        	expect(string).to.match(/[a-z]\.$/);
+        });
+
     });
 
     describe("words()", function () {
         
         it("should return a string", function () {
-            expect(getsum.words()).to.be.a("string");
+            expect(getsum.words(10)).to.be.a("string");
+        });
+
+        it("should return the given number of words", function() {
+        	var string = getsum.words(5);
+        	stringArray = string.split(' ');
+        	expect(stringArray).to.have.length(5);
         });
 
     });

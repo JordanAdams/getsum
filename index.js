@@ -1,24 +1,55 @@
 var _  = require('underscore');
-var fs = require('fs');
+var FS = require('fs');
+var S  = require('string')
 
-function fileLoader(filename) {
-    var file = fs.readFileSync(filename, {
-        encoding: 'utf8'
-    });
-    return file;
+
+/**
+ * Main Getsum "class"
+ */
+function Getsum() {
+
+    this.ipsumData = fileLoader('./data/lorem-ipsum.txt');
+
+    this.splitToWords = function() {
+    	return this.ipsumData.split(' ');
+    }
+
+	function fileLoader(filename) {
+	    var file = FS.readFileSync(filename, {
+	        encoding: 'utf8'
+	    });
+	    return file;
+	}
+
 }
 
-var Getsum = {
-    ipsumData: fileLoader('./data/lorem-ipsum.txt'),
 
-    characters: function(count) {
-        return this.ipsumData.substr(0, count);
-    },
+/**
+ * Gets ipsum with the given number of characters
+ * @param  {Number} count - Number of characters
+ * @return {String}       - Resulting string
+ */
+Getsum.prototype.characters = function(count) {
+    var ipsum = this.ipsumData.substr(0, count);
 
-    words: function() {
-        return 'lorem ipsum';
-    },
+    // Check if 2nd to last letter is lowercase
+    if (!S(ipsum).right(2).charAt(0).isLower()) {
+    	
+    }
+
+    return ipsum;
 }
 
 
-module.exports = Getsum;
+/**
+ * Gets ipsum with the given number of words
+ * @param  {Number} count - Number of words
+ * @return {String}       - Resulting string
+ */
+Getsum.prototype.words = function(count) {
+    var wordsArray = this.splitToWords();
+    return wordsArray.slice(0, count).join(' ');
+},
+
+
+module.exports = new Getsum;
