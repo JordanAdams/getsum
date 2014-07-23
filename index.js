@@ -65,6 +65,9 @@ Getsum.prototype.characters = function(count) {
             + "."
             + ipsum.slice(lastCharIndex+1);
 
+    // Uppercase the first character
+    ipsum = S(ipsum).capitalize().s;
+
     return ipsum;
 
 }

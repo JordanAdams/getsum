@@ -28,6 +28,14 @@ describe("Getsum", function() {
         	expect(string).to.match(/[a-z]\.$/);
         });
 
+        it('should start with an uppercase letter', function () {
+            var upperAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var firstCharacter = getsum.characters(10).charAt(0);
+            var firstCharIsUpper = upperAlpha.indexOf(firstCharacter) > -1;
+
+            expect(firstCharIsUpper).to.be.true;
+        });
+
     });
 
     describe("words()", function () {
