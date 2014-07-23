@@ -12,8 +12,12 @@ var Getsum = {
     ipsumData: fileLoader('./data/lorem-ipsum.txt'),
 
     characters: function(count) {
-        return this.ipsumData.substr(0, count)
-    }
+        return this.ipsumData.substr(0, count);
+    },
+
+    words: function() {
+        return 'lorem ipsum';
+    },
 }
 
 
