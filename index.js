@@ -3,6 +3,16 @@ var FS = require('fs');
 var S  = require('string')
 
 
+var Utils = {
+    
+    randomLetter: function() {
+        var alpha = 'abcdefghijklmnopqrstuvwxyz';
+        return alpha.charAt(Math.floor(Math.random() * alpha.length));
+    }
+
+}
+
+
 /**
  * Main Getsum "class"
  */
@@ -30,14 +40,33 @@ function Getsum() {
  * @return {String}       - Resulting string
  */
 Getsum.prototype.characters = function(count) {
+    
     var ipsum = this.ipsumData.substr(0, count);
 
-    // Check if 2nd to last letter is lowercase
-    if (!S(ipsum).right(2).charAt(0).isLower()) {
-    	
+    // Get 2nd last char info
+    var secondLastCharIndex = ipsum.length - 2;
+    var secondLastChar      = ipsum.charAt(secondLastCharIndex);
+
+    // Get a random char if 2nd last char isn't alphabetical
+    if (!S(secondLastChar).isAlpha()) {
+        secondLastChar = Utils.randomLetter();
     }
 
+    // Replace 2nd last char
+    ipsum = ipsum.slice(0, secondLastCharIndex)
+            + secondLastChar.toLowerCase()
+            + ipsum.slice(secondLastCharIndex+1);
+
+    // Get last char index
+    var lastCharIndex = ipsum.length - 1;
+
+    // Replace last char with a "."
+    ipsum = ipsum.slice(0, lastCharIndex)
+            + "."
+            + ipsum.slice(lastCharIndex+1);
+
     return ipsum;
+
 }
 
 
