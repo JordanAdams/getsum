@@ -4,12 +4,10 @@ var S  = require('string')
 
 
 var Utils = {
-    
     randomLetter: function() {
         var alpha = 'abcdefghijklmnopqrstuvwxyz';
         return alpha.charAt(Math.floor(Math.random() * alpha.length));
     }
-
 }
 
 
@@ -18,18 +16,35 @@ var Utils = {
  */
 function Getsum() {
 
-    this.ipsumData = loadFileContents('./data/lorem-ipsum.txt');
+    this.ipsumData = require('./data/ipsum.json');
 
-    this.splitToWords = function() {
-    	return this.ipsumData.split(' ');
+    this.options = {
+    	flavour: 'lorem'
     }
 
-	function loadFileContents(filename) {
-	    var file = FS.readFileSync(filename, {
-	        encoding: 'utf8'
-	    });
-	    return file;
-	}
+    this.getIpsum = function(flavour) {
+    	if (!this.ipsumData[flavour]) {
+    		throw new Error(flavour + ' is not a valid ipsum flavour.');
+    	}
+
+    	return this.ipsumData[flavour];
+    }
+
+    this.sentenceify = function(string) {
+	 	// Captalise
+		string = S(string).capitalize().s;
+
+		// Fix end
+		stringCharArray = string.split('');
+		stringCharArray[stringCharArray.length - 1] = '.'; // Make last char "."
+		if (!S(stringCharArray[stringCharArray.length - 2].toLowerCase()).isLower()) { // Make 2nd to last char lowercase
+			stringCharArray[stringCharArray - 2] = Utils.randomLetter;
+		}
+		string = stringCharArray.join('');
+
+		// Return it
+		return string;
+    }
 
 }
 
@@ -41,32 +56,27 @@ function Getsum() {
  */
 Getsum.prototype.characters = function(count) {
     
-    var ipsum = this.ipsumData.substr(0, count);
+	var options = this.options;
 
-    // Get 2nd last char info
-    var secondLastCharIndex = ipsum.length - 2;
-    var secondLastChar      = ipsum.charAt(secondLastCharIndex);
+    // Invalid or no count given?
+   	if (!typeof count === 'Number' || Math.floor(count) < 1) {
+   		count = _.random(1, 100);
+   	}
 
-    // Get a random char if 2nd last char isn't alphabetical
-    if (!S(secondLastChar).isAlpha()) {
-        secondLastChar = Utils.randomLetter();
-    }
+   	// Get ipsum data
+   	var ipsum = this.getIpsum(options.flavour);
 
-    // Replace 2nd last char
-    ipsum = ipsum.slice(0, secondLastCharIndex)
-            + secondLastChar.toLowerCase()
-            + ipsum.slice(secondLastCharIndex+1);
+   	// Shuffle ipsum words
+   	ipsum = _.shuffle(ipsum);
 
-    // Get last char index
-    var lastCharIndex = ipsum.length - 1;
+   	// Join ipsum words with spaces
+   	ipsum = ipsum.join(' ');
 
-    // Replace last char with a "."
-    ipsum = ipsum.slice(0, lastCharIndex)
-            + "."
-            + ipsum.slice(lastCharIndex+1);
+   	// Clip back to count
+   	ipsum = ipsum.substr(0, count);
 
-    // Uppercase the first character
-    ipsum = S(ipsum).capitalize().s;
+   	// Sentenceify
+   	ipsum = this.sentenceify(ipsum);
 
     return ipsum;
 
@@ -79,8 +89,28 @@ Getsum.prototype.characters = function(count) {
  * @return {String}       - Resulting string
  */
 Getsum.prototype.words = function(count) {
-    var wordsArray = this.splitToWords();
-    return wordsArray.slice(0, count).join(' ');
+    
+	var options = this.options;
+
+	// Invalid or no count given?
+	if (!typeof count === 'Number' || Math.floor(count) < 1) {
+		count = _.random(1, 100);
+	}
+
+	// Get ipsum data
+	var ipsum = this.getIpsum(options.flavour);
+
+	// Clip down ipsum words to requested amount
+	ipsum = _.sample(ipsum, count);
+
+	// Join words with spaces
+	ipsum = ipsum.join(' ');
+
+	// Sentenceify
+	ipsum = this.sentenceify(ipsum);
+
+	return ipsum
+
 },
 
 

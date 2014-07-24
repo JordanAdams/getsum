@@ -4,13 +4,28 @@ var getsum = require("../index.js");
 
 describe("Getsum", function() {
    
-    it("should have ipsum data", function() {
-        expect(getsum.ipsumData)
-            .to.have.length.at.least(1)
-            .and.to.be.a("string");
-    });
+   	describe('ipsumData', function () {
+   		
+	    it("should be an object", function() {
+	        expect(getsum.ipsumData)
+	            .to.be.an("object");
+	    });
 
+	    it('should have a lorem property', function () {
+	    	expect(getsum.ipsumData).to.have.property("lorem");
+	    });
 
+	    it('should have a bacon property', function () {
+	    	expect(getsum.ipsumData).to.have.property("bacon");
+	    });
+
+	    it('should have a gibberish property', function () {
+	    	expect(getsum.ipsumData).to.have.property("gibberish");
+	    });
+
+   	});
+
+   	
     describe("characters()", function() {
 
         it("should return a string", function() {
