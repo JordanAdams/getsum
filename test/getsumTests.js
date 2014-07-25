@@ -29,7 +29,7 @@ describe("Getsum", function() {
     describe("characters()", function() {
 
         it("should return a string", function() {
-            expect(getsum.characters()).to.be.a("string");
+            expect(getsum.characters(10)).to.be.a("string");
         });
 
         it("should return the correct number of characters", function () {
@@ -38,9 +38,9 @@ describe("Getsum", function() {
                 .and.to.be.a("string")
         });
 
-        it('should end with a lowercase letter and full stop', function () {
+        it('should end with a full stop', function () {
         	var string   = getsum.characters(10);
-        	expect(string).to.match(/[a-z]\.$/);
+        	expect(string).to.match(/\.$/);
         });
 
         it('should start with an uppercase letter', function () {
@@ -49,6 +49,17 @@ describe("Getsum", function() {
             var firstCharIsUpper = upperAlpha.indexOf(firstCharacter) > -1;
 
             expect(firstCharIsUpper).to.be.true;
+        });
+
+        it('should handle an invalid or missing count argument', function () {
+            expect(getsum.characters()).to.have.length.above(0);
+            expect(getsum.characters(-10)).to.have.length.above(0);
+            expect(getsum.characters(0)).to.have.length.above(0);
+            expect(getsum.characters(0.5)).to.have.length.above(0);
+        });
+
+        it('should accept options', function () {
+            
         });
 
     });

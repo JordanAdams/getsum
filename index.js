@@ -9,7 +9,7 @@ function Getsum() {
 
     this.ipsumData = require('./data/ipsum.json');
 
-    this.options = {
+    this.defaults = {
     	flavour: 'lorem'
     }
 
@@ -48,9 +48,9 @@ function Getsum() {
  * @param  {Number} count - Number of characters
  * @return {String}       - Resulting string
  */
-Getsum.prototype.characters = function(count) {
+Getsum.prototype.characters = function(count, options) {
     
-	var options = this.options;
+	var options = _.extend(this.defaults, options);
 
     // Invalid or no count given?
    	if (!typeof count === 'Number' || Math.floor(count) < 1) {
@@ -82,9 +82,9 @@ Getsum.prototype.characters = function(count) {
  * @param  {Number} count - Number of words
  * @return {String}       - Resulting string
  */
-Getsum.prototype.words = function(count) {
+Getsum.prototype.words = function(count, options) {
     
-	var options = this.options;
+	var options = _.extend(this.defaults, options);
 
 	// Invalid or no count given?
 	if (!typeof count === 'Number' || Math.floor(count) < 1) {
