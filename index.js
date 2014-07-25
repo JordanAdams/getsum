@@ -2,15 +2,6 @@ var _  = require('underscore');
 var FS = require('fs');
 var S  = require('string')
 
-
-var Utils = {
-    randomLetter: function() {
-        var alpha = 'abcdefghijklmnopqrstuvwxyz';
-        return alpha.charAt(Math.floor(Math.random() * alpha.length));
-    }
-}
-
-
 /**
  * Main Getsum "class"
  */
@@ -31,19 +22,22 @@ function Getsum() {
     }
 
     this.sentenceify = function(string) {
-	 	// Captalise
-		string = S(string).capitalize().s;
 
-		// Fix end
-		stringCharArray = string.split('');
-		stringCharArray[stringCharArray.length - 1] = '.'; // Make last char "."
-		if (!S(stringCharArray[stringCharArray.length - 2].toLowerCase()).isLower()) { // Make 2nd to last char lowercase
-			stringCharArray[stringCharArray - 2] = Utils.randomLetter;
-		}
-		string = stringCharArray.join('');
+  	 	// Captalise
+  		string = S(string).capitalize().s;
 
-		// Return it
-		return string;
+  		// Make string into char array
+  		stringCharArray = string.split('');
+
+        // Make last char "."
+  		stringCharArray[stringCharArray.length - 1] = '.';
+
+        // Join together string
+  		string = stringCharArray.join('');
+
+  		// Return it
+  		return string;
+
     }
 
 }
